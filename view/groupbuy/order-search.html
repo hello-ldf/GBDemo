@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+
+		<style>
+			input {
+				width: 200px;
+				height: 30px;
+				font: 14px/1 "microsoft yahei";
+				color: #333;
+				text-align: center;
+			}
+			
+			input::-ms-input-placeholder {
+				text-align: center;
+			}
+			
+			input::-webkit-input-placeholder {
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<!--顶部-->
+		<header class="mui-bar mui-bar-nav">
+			<span id="a-order-add" class="mui-icon mui-icon-plus mui-pull-left"></span>
+			<h1 id="title" class="mui-title">客户订单</h1>
+			<span class="mui-icon mui-icon-search mui-pull-right"></span>
+		</header>
+		
+		
+		<!-- 内容 -->
+		<div class="mui-content" style="position:absolute;top: 50px;width: 100%;">
+			<div class=" mui-input-group">
+				<div class="mui-input-row">
+					<input type="text" id='Saler' placeholder="订单号：可选">
+				</div>
+				<div class="mui-input-row">
+					<input type="text" id="CustomName" placeholder="客户电话：可选">
+				</div>
+				<div class="mui-button-row">
+					<button id='date' data-options='{"type":"date","beginYear":2015,"endYear":2025}' class="btn mui-btn-primary mui-btn-block mui-btn-outlined">下单日期: 可选</button>
+				</div>
+			</div>
+			<div style="position:relative;top: 50px;">
+				<button id="searchBtn" type="button" class="mui-btn mui-btn-primary mui-icon mui-icon-search mui-right btn-block" style="height: 50px;font-size: 25px;">
+		            搜索
+		        </button>
+			</div>
+		</div>
+		
+		
+		
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.picker.min.js"></script>
+		<script>
+			// mui初始化配置
+			mui.init();
+
+			// mui 
+			(function($) {
+				$.ready(function() {
+					
+					// 日期控件
+					$('body').on('tap', '#date', function() {
+						var btn = this;
+						btn.innerText = '下单日期: 可选';
+						var optionsJson = btn.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = btn.getAttribute('id');
+						var picker = new $.DtPicker(options);
+						picker.show(function(rs) {
+							btn.innerText = '下单日期: ' + rs.text;
+							picker.dispose();
+						});
+					}, false);
+					
+					// 按条件搜索
+					$("body").on("tap","#searchBtn",function(){
+						$.openWindow({
+							url: "order-list.html",
+							id: "order-list.html",
+						})
+					})
+					
+				})
+			})(mui);
+			
+			// plusReady
+			mui.plusReady(function() {
+
+			});
+		</script>
+	</body>
+
+</html>

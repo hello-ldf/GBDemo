@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			.mui-content-padded {
+				margin: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- 顶部 -->
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">模块选择</h1>
+		</header>
+
+		<!-- 内容 -->
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<button id="main1" type="button" class="mui-btn mui-btn-primary mui-btn-block">店面下单</button>
+				<button id="main2" type="button" class="mui-btn mui-btn-royal mui-btn-block">团购下单</button>
+			</div>
+			<div class="mui-table-view" style="margin-top:40px">
+				<div id="loginExit" class="mui-table-view-cell" style="text-align: center;">
+					<a>退出登录</a>
+				</div>
+			</div>
+			<div class="mui-table-view" style="margin-top:20px">
+				<div id="appExit" class="mui-table-view-cell" style="text-align: center;">
+					<a>退出程序</a>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript">
+			var settings = app.getSettings();
+
+			mui.init({
+				keyEventBind: {
+					backbutton: false //关闭back按键监听
+				}
+			});
+			// 打开主页1
+			mui(".mui-content-padded").on('tap', '#main1', function() {
+				mui.openWindow('normal/tab-main.html', 'hello')
+			});
+			// 打开主页2
+			mui(".mui-content-padded").on('tap', '#main2', function() {
+				mui.openWindow('groupbuy/tab-main.html', 'hello')
+			});
+
+			/* 退出登录 */
+			mui('.mui-table-view').on('tap', '#loginExit', function() {
+				var btnArray = ['否', '是'];
+				mui.confirm('退出登录，确认？', '退出登录', btnArray, function(e) {
+					if(e.index == 1) {
+						settings.autoLogin = false;
+						app.setSettings(settings);
+						mui.back();
+					}
+				})
+			});
+
+			mui.plusReady(function() {
+				// 退出程序
+				mui('.mui-table-view').on('tap', '#appExit', function() {
+					var btnArray = ['否', '是'];
+					mui.confirm('退出程序，确认？', '退出程序', btnArray, function(e) {
+						if(e.index == 1) {
+							plus.runtime.quit();
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,443 @@
+{
+	"view/tab-order-manage.html": {
+		"resources": [
+			"view/order-list-pullrefresh.html",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/order-list-pullrefresh.html"
+		]
+	},
+	"view/tab-main.html": {
+		"resources": [
+			"view/tab-order-manage.html",
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/tab-order-manage.html",
+			"view/tab-setting.html",
+			"view/tab-inventory.html",
+			"view/tab-message.html"
+		]
+	},
+	"view/order-list-pullrefresh.html": {
+		"resources": [
+			"js/datedropper.min.js",
+			"js/jquery-1.11.3.min.js",
+			"css/datedropper.css",
+			"css/bootstrap.min.css",
+			"css/dd-icon/dd-icon.woff",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/order-add.html",
+			"view/order-update.html"
+		]
+	},
+	"view/login.html": {
+		"resources": [
+			"js/app.js",
+			"js/md5.min.js",
+			"js/mui.picker.min.js",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"js/mui.enterfocus.js",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"view/tab-main.html",
+			"view/index.html"
+		]
+	},
+	"view/tab-setting.html": {
+		"resources": [
+			"css/feedback.css",
+			"js/feedback.js",
+			"js/mui.view.js",
+			"fonts/mui.ttf",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/login.html"
+		]
+	},
+	"view/order-add.html": {
+		"resources": [
+			"css/easyui.css",
+			"js/jquery.easyui.min.js",
+			"js/common.js",
+			"css/jquery-ui-1.12.0.custom/jquery-ui.min.css",
+			"css/common.css",
+			"css/app.css",
+			"js/store.data.js",
+			"js/bootstrap.min.js",
+			"js/immersed.js",
+			"js/mui.picker.min.js",
+			"js/jquery-1.11.3.min.js",
+			"fonts/mui.ttf",
+			"css/bootstrap.min.css",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"css/mui.poppicker.css",
+			"js/order.js",
+			"js/msg.js"
+		],
+		"refer": [
+			"view/barcode_scan.html"
+		]
+	},
+	"view/barcode_scan.html": {
+		"resources": [
+			"js/common.js",
+			"css/common.css"
+		],
+		"refer": []
+	},
+	"view/tab-inventory.html": {
+		"resources": [
+			"js/app.js",
+			"js/common.js",
+			"js/jquery-1.11.3.min.js",
+			"js/mui.min.js",
+			"css/common.css",
+			"css/mui.min.css",
+			"js/immersed.js"
+		],
+		"refer": [
+			"view/barcode_scan.html"
+		]
+	},
+	"view/tab-message.html": {
+		"resources": [
+			"css/easyui.css",
+			"js/jquery.easyui.min.js",
+			"js/common.js",
+			"css/jquery-ui-1.12.0.custom/jquery-ui.min.css",
+			"css/common.css",
+			"css/app.css",
+			"js/store.data.js",
+			"js/bootstrap.min.js",
+			"js/immersed.js",
+			"js/mui.picker.min.js",
+			"js/jquery-1.11.3.min.js",
+			"fonts/mui.ttf",
+			"css/bootstrap.min.css",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"css/mui.poppicker.css"
+		],
+		"refer": []
+	},
+	"view/order-update.html": {
+		"resources": [
+			"js/order.js",
+			"js/common.js",
+			"js/mui.picker.min.js",
+			"css/common.css",
+			"css/app.css",
+			"js/mui.poppicker.js",
+			"js/bootstrap.min.js",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"js/immersed.js",
+			"js/msg.js",
+			"js/jquery-1.11.3.min.js",
+			"fonts/mui.ttf",
+			"css/bootstrap.min.css",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/barcode_scan.html"
+		]
+	},
+	"view/index.html": {
+		"resources": [
+			"css/mui.min.css",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"view/normal/tab-main.html",
+			"view/groupbuy/tab-main.html",
+			"view/login.html"
+		]
+	},
+	"view/normal/tab-inventory.html": {
+		"resources": [
+			"js/app.js",
+			"js/common.js",
+			"js/jquery-1.11.3.min.js",
+			"js/mui.min.js",
+			"css/common.css",
+			"css/mui.min.css",
+			"js/immersed.js"
+		],
+		"refer": [
+			"view/normal/barcode_scan.html"
+		]
+	},
+	"view/normal/order-list-pullrefresh.html": {
+		"resources": [
+			"js/datedropper.min.js",
+			"js/jquery-1.11.3.min.js",
+			"css/datedropper.css",
+			"css/bootstrap.min.css",
+			"css/dd-icon/dd-icon.woff",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/normal/order-add.html",
+			"view/normal/order-update.html"
+		]
+	},
+	"view/normal/tab-main.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"view/normal/tab-order-manage.html",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/normal/tab-order-manage.html",
+			"view/normal/tab-setting.html",
+			"view/normal/tab-inventory.html",
+			"view/normal/tab-message.html"
+		]
+	},
+	"view/normal/tab-order-manage.html": {
+		"resources": [
+			"view/normal/order-list-pullrefresh.html",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/normal/order-list-pullrefresh.html"
+		]
+	},
+	"view/normal/tab-setting.html": {
+		"resources": [
+			"css/feedback.css",
+			"css/app.css",
+			"js/mui.view.js",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"view/groupbuy/tab-order-manage.html": {
+		"resources": [
+			"view/groupbuy/order-list-pullrefresh.html"
+		],
+		"refer": [
+			"view/groupbuy/order-list-pullrefresh.html"
+		]
+	},
+	"view/groupbuy/order-list-pullrefresh.html": {
+		"resources": [
+			"js/datedropper.min.js",
+			"js/jquery-1.11.3.min.js",
+			"css/datedropper.css",
+			"css/bootstrap.min.css",
+			"css/dd-icon/dd-icon.woff",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"view/groupbuy/order-add.html",
+			"view/groupbuy/order-update.html"
+		]
+	},
+	"view/groupbuy/tab-main.html": {
+		"resources": [
+			"view/groupbuy/tab-order-manage.html",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/mui.min.js"
+		],
+		"refer": [
+			"view/groupbuy/tab-order-manage.html",
+			"view/groupbuy/tab-inventory.html",
+			"view/groupbuy/tab-message.html",
+			"view/groupbuy/tab-setting.html"
+		]
+	},
+	"view/groupbuy/tab-inventory.html": {
+		"resources": [
+			"js/common.js",
+			"css/common.css",
+			"js/immersed.js",
+			"js/app.js",
+			"js/jquery-1.11.3.min.js",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"view/groupbuy/barcode_scan.html"
+		]
+	},
+	"view/groupbuy/tab-message.html": {
+		"resources": [
+			"css/app.css",
+			"js/bootstrap.min.js",
+			"js/mui.picker.min.js",
+			"js/jquery-1.11.3.min.js",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"css/bootstrap.min.css"
+		],
+		"refer": []
+	},
+	"view/groupbuy/tab-setting.html": {
+		"resources": [
+			"css/feedback.css",
+			"js/mui.view.js",
+			"css/app.css",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"view/groupbuy/order-add.html": {
+		"resources": [
+			"js/order.js",
+			"js/msg.js",
+			"js/common.js",
+			"css/common.css",
+			"js/immersed.js",
+			"js/jquery-1.11.3.min.js",
+			"js/mui.picker.min.js",
+			"fonts/mui.ttf",
+			"css/bootstrap.min.css",
+			"css/app.css",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"js/bootstrap.min.js",
+			"css/mui.picker.min.css",
+			"css/mui.poppicker.css"
+		],
+		"refer": [
+			"view/groupbuy/barcode_scan.html"
+		]
+	},
+	"view/groupbuy/order-update.html": {
+		"resources": [
+			"js/order.js",
+			"js/common.js",
+			"css/common.css",
+			"js/immersed.js",
+			"js/msg.js",
+			"js/jquery-1.11.3.min.js",
+			"js/mui.picker.min.js",
+			"fonts/mui.ttf",
+			"css/bootstrap.min.css",
+			"css/app.css",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"js/bootstrap.min.js",
+			"css/mui.picker.min.css",
+			"css/mui.poppicker.css"
+		]
+	},
+	"view/normal/barcode_scan.html": {
+		"resources": [
+			"js/common.js",
+			"css/common.css"
+		]
+	},
+	"view/normal/tab-message.html": {
+		"resources": [
+			"js/mui.picker.min.js",
+			"css/app.css",
+			"js/mui.poppicker.js",
+			"fonts/mui.ttf",
+			"js/bootstrap.min.js",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"css/bootstrap.min.css",
+			"js/jquery-1.11.3.min.js",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		]
+	},
+	"view/normal/order-add.html": {
+		"resources": [
+			"js/order.js",
+			"js/common.js",
+			"css/common.css",
+			"js/immersed.js",
+			"js/msg.js",
+			"js/mui.picker.min.js",
+			"css/app.css",
+			"js/mui.poppicker.js",
+			"js/bootstrap.min.js",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"js/jquery-1.11.3.min.js",
+			"fonts/mui.ttf",
+			"css/bootstrap.min.css",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/order1.js"
+		],
+		"refer": [
+			"view/normal/barcode_scan.html"
+		]
+	},
+	"view/normal/order-update.html": {
+		"resources": [
+			"js/jquery-1.11.3.min.js",
+			"js/mui.picker.min.js",
+			"fonts/mui.ttf",
+			"js/immersed.js",
+			"css/bootstrap.min.css",
+			"js/order.js",
+			"js/common.js",
+			"css/app.css",
+			"css/common.css",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"js/bootstrap.min.js",
+			"css/mui.picker.min.css",
+			"css/mui.poppicker.css",
+			"js/msg.js",
+			"js/order1.js"
+		],
+		"refer": [
+			"view/normal/barcode_scan.html"
+		]
+	},
+	"view/groupbuy/barcode_scan.html": {
+		"resources": [
+			"js/common.js",
+			"css/common.css"
+		]
+	}
+}

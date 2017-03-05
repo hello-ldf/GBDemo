@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,
+										maximum-scale=1,user-scalable=no" />
+		<title></title>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css" />
+
+		<!-- 默认样式 -->
+		<style>
+			.ui-page-login,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			.mui-content {
+				height: 100%;
+			}
+			
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				background-color: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- 顶部 -->
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">登录</h1>
+		</header>
+
+		<!-- 内容 -->
+		<div class="mui-content">
+
+			<!-- 选择地区 -->
+			<form class="mui-input-group">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						<div class="mui-button-row ">
+							<button id='areaText' class="mui-btn mui-btn-block" 
+									type='button'>选择地区</button>
+							<label id='areaValue' style="display: none;"></label>
+						</div>
+					</li>
+				</ul>
+			</form>
+
+			<!-- 账号、密码 -->
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' class="mui-input-clear mui-input" 
+							type="text" placeholder="请输入账号" />
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' class="mui-input-clear mui-input" 
+							type="password" placeholder="请输入密码" />
+				</div>
+			</form>
+
+			<!-- 自动登录 -->
+			<form class="mui-input-group">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						自动登录
+						<div id="autoLogin" class="mui-switch">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</li>
+				</ul>
+			</form>
+
+			<!-- 登录、注册、忘记密码 -->
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area">
+					<a id='reg'>注册账号</a> <span class="spliter">|</span>
+					<a id='forgetPassword'>忘记密码</a>
+				</div>
+			</div>
+
+			<!-- 第三方登录 -->
+			<!--<div class="mui-content-padded oauth-area">
+
+			</div>-->
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.enterfocus.js"></script>
+		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/md5.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/app.js"></script>
+
+		<script type="text/javascript">
+			// 服务器IP、prot
+			localStorage.setItem("server", "http://www.kinwails.com:9412");
+//			 localStorage.setItem("server", "http://192.168.1.105:2345");
+			var server = localStorage.getItem("server");
+
+			// function begin +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			(function($, doc) {
+
+				// 初始化属性
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+
+				// mui ready 开始**************************************************************
+				$.ready(function() {
+
+						// 地区选择 控件
+						$.ajax({
+							type: "post",
+							url: server + "/Global/GetAreas",
+							async: true,
+							dataType: "json",
+							success: function(data) {
+								var areas = JSON.parse(data);
+								var userPicker = new $.PopPicker();
+								userPicker.setData(areas);
+								var areaTextButton = doc.getElementById('areaText');
+								areaTextButton.addEventListener('tap', function(event) {
+									userPicker.show(function(items) {
+										areaTextButton.innerText = items[0].text;
+										$("#areaValue")[0].innerText = items[0].value;
+										//返回 false 可以阻止选择框的关闭
+										//return false;
+									});
+								}, false);
+							},
+							error: function(error) {
+								alert("/Global/GetAreas,调用失败。" + error)
+							}
+						});
+
+						// 自动填写已有的用户名、地区
+						var user = JSON.parse(localStorage.getItem("userJson"));
+						var area = JSON.parse(localStorage.getItem("areaJson"));
+						if(user != undefined) {
+							$("#account")[0].value = user.cid;
+						}
+						if(area != undefined) {
+							$("#areaText")[0].innerText = area.areaText;
+							$("#areaValue")[0].innerText = area.areaValue;
+						}
+					})
+					// mui ready 结束 **************************************************************
+
+				// mui plusReady 开始 ----------------------------------------------------------
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings = app.getSettings(); // 获取APP本地设置
+					var state = app.getState(); // 获取APP当前状态
+
+
+					// 预加载主页
+					var mainPage = $.preload({
+						"id": 'main',
+						"url": 'index.html'
+					});
+
+
+					// 打开主页
+					var toMain = function() {
+						$.fire(mainPage, 'show', null);
+						setTimeout(function() {
+							$.openWindow({
+								id: 'main',
+								show: {
+									aniShow: 'pop-in'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						}, 0);
+					};
+
+
+					//检查 "登录状态/锁屏状态" 开始
+					if(settings.autoLogin && state.token && settings.gestures) {
+						// 自动登录 & token & 手势
+						$.openWindow({
+							url: 'unlock.html',
+							id: 'unlock',
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else if(settings.autoLogin && state.token) {
+						// 自动登录 & token
+						toMain();
+					} else {
+						// 第三方登录
+					}
+
+
+					// close splash
+					setTimeout(function() {
+						//关闭 splash
+						plus.navigator.closeSplashscreen();
+					}, 600);
+
+
+					// 检查 "登录状态/锁屏状态" 结束
+					var areaValue = doc.getElementById('areaValue'); // 地区值 控件
+					var areaText = doc.getElementById('areaText'); // 地区名 控件
+					var accountBox = doc.getElementById('account'); // 账户 控件
+					var passwordBox = doc.getElementById('password'); // 密码 控件
+					var loginButton = doc.getElementById('login'); // 登录 按钮
+					var autoLoginButton = doc.getElementById("autoLogin"); // 自动登录 按钮
+					var regButton = doc.getElementById('reg'); // 注册 按钮
+					var forgetButton = doc.getElementById('forgetPassword'); // 忘记密码 按钮
+
+
+					// 登录按钮 事件 	begin************************************************************
+					loginButton.addEventListener('tap', function(event) {
+
+						// 定义  登录信息
+						var loginInfo = {
+							server: server,
+							db: areaValue.innerText,
+							dbName: areaText.innerText,
+							account: accountBox.value,
+							accountText: null,
+							password: passwordBox.value,
+							macAddr: null
+						};
+
+						// 登录事件 先调用APP.JS -login
+						app.login(loginInfo, function(err) {
+
+							// 出现错误
+							if(err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
+							
+							// 地区与上次选择不同  移除模板
+							var lastarea = JSON.parse(localStorage.getItem("areaJson"));
+							if(lastarea != undefined) {
+								if(lastarea.areaValue != areaValue.innerText) {
+									localStorage.removeItem("mould");
+								}
+							}
+							
+							// 定义  地区信息  并保存
+							var area = {
+								areaText: $("#areaText")[0].innerText,
+								areaValue: $("#areaValue")[0].innerText,
+							}
+							localStorage.setItem("areaJson", JSON.stringify(area));
+							
+							// 储存到本地配置
+							app.setSettings(settings);	
+							
+							// 获取全局参数  保存到手机内存中
+							mui.ajax({
+								type: "post",
+								url: server + "/Global/GetGlobalParm",
+								crossDomain: true,
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								data: "{db:" + JSON.stringify(loginInfo.db) + "}",
+								dataType: "json",
+								success: function(globalJson) {
+									if(globalJson != "NonData") {
+										localStorage.setItem("globalJson", globalJson);
+									} else {
+										alert("global没有数据");
+									}
+								},
+								error: function(error) {
+									return callback('Global/GetGlobalParm，请求失败。' + error);
+								}
+							});
+							
+							// 跳到主页
+							toMain();
+						});
+					});
+					// 登录事件  end  *************************************************************
+					
+					
+					// 自动跳到下一个INPUT  并处于编辑状态
+					$.enterfocus('#login-form input', function() {
+						$.trigger(loginButton, 'tap');
+					});
+					
+					
+					// 自动登录按钮  事件
+					autoLoginButton.classList[settings.autoLogin ? 'add' : 'remove']('mui-active')
+					autoLoginButton.addEventListener('toggle', function(event) {
+						setTimeout(function() {
+							var isActive = event.detail.isActive;
+							settings.autoLogin = isActive;
+						}, 50);
+					}, false);
+					
+					
+					// 注册按钮  事件
+					regButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: 'reg.html',
+							id: 'reg',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					
+					
+					// 忘记密码按钮  事件
+					forgetButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: 'forget_password.html',
+							id: 'forget_password',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					//
+					//					window.addEventListener('resize', function() {
+					//						oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
+					//					}, false);
+					
+					
+					// 点击两次退出应用
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if(backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+				});
+				// mui.plusReady 结束 -----------------------------------------------------------
+
+			}(mui, document));
+			// function end +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+	</head>
+
+	<body>
+		<!-- 顶部 -->
+		<header class="mui-bar mui-bar-nav">
+			<h1 id="title" class="mui-title">库存查询</h1>
+		</header>
+		
+		<!-- 内容 -->
+		<div class="mui-content">
+			<div class="mui-card">
+				
+				<div class="mui-card-content-inner">
+					<div class="button" onclick="clicked('barcode_scan.html', true, true);">扫一扫</div>
+				</div>
+				
+				<div class="mui-card-content-inner" style="text-align: center;">
+					<div class="row">
+						<label>型号：</label>
+						<label id="ProductNo"></label>
+					</div>
+					<div class="row">
+						<label>库存：</label>
+						<label id="inventory"></label>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<script src="../../js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/immersed.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			// mui初始化配置
+			mui.init();
+			
+			// 加载server
+			var server = localStorage.getItem("server");
+		
+			// 二维码
+			function scaned(r) {
+				$("#ProductNo").text("");
+				$("#inventory").text("");
+				//$(".ui-autocomplete-input").val(r);
+				$("#ProductNo").text(r);
+				QryInventory(r);
+			};
+
+			// 查库存
+			function QryInventory(pdNo) {
+				mui.ajax({
+					type: "Post",
+					url: server + "/Global/QryInventory",
+					crossDomain: true,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data: "{pdNo:" + JSON.stringify(pdNo) + "}",
+					dataType: "json",
+					success: function(data) {
+						$("#inventory").text(data);
+					},
+					error: function(error) {
+						alert("/Global/QryInventory，请求失败。 " + error)
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

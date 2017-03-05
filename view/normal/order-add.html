@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>客户订单</title>
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.poppicker.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+
+		<!-- 默认样式 -->
+		<style>
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			
+			.ui-alert {
+				text-align: center;
+				font-size: 16px;
+			}
+		</style>
+
+		<!--自定义-->
+		<style type="text/css">
+			/*项目样式*/
+			
+			#itemCards .Account {
+				color: red;
+			}
+			/*模态框paddingright-0*/
+			
+			.modal-body label {
+				padding-right: 0;
+				width: 65px;
+			}
+			/*让header不被隐藏*/
+			
+			.mui-bar {
+				display: block!important;
+			}
+			
+			.easyui-combobox {
+				width: 50%;
+				height: 30px;
+				margin-top: 10px;
+			}
+			
+			.textbox {
+				width: 150px !important;
+			}
+			
+			.textbox-icon {
+				width: 50px !important;
+			}
+			
+			.mui-input-row .mui-radio {
+				display: inline-block !important;
+				width: 120px !important;
+			}
+			
+			.mui-btn-outlined.mui-btn-blue {
+				float: left;
+				width: 150px;
+				margin: 0;
+			}
+			
+			.modal-content .mui-btn-outlined {
+				float: left;
+				width: 100px;
+				margin: 0;
+			}
+			
+			.mui-button-row label {
+				text-align: left;
+				width: 125px;
+				float: left;
+				padding: 11px 15px;
+			}
+			
+			.mui-checkbox.mui-left label,
+			.mui-radio.mui-left label {
+				padding-right: 0px !important;
+				padding-left: 15px !important;
+				float: left !important;
+			}
+			
+			.mui-checkbox.mui-left input[type=checkbox],
+			.mui-radio.mui-left input[type=radio] {
+				left: 60px;
+			}
+			
+			.mui-dtpicker {
+				z-index: 999;
+			}
+			
+			.mui-poppicker {
+				z-index: 1051;
+			}
+			
+			#discountText {
+				width: 80px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!-- 顶部 -->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">添加订单</h1>
+			<button type="button" style="float: right;" class="mui-btn mui-btn-primary" data-toggle="modal" data-target="#addModal">添加</button>
+		</header>
+
+		<!-- 底部 -->
+		<footer id="footer" style="position: fixed; bottom: 0; z-index: 100;
+									width: 100%;background: white;">
+			<div style="float: left; line-height: 43px;">
+				<label style="margin-left: 10px;">结算:</label> ￥
+				<label id="TotalAccount" style="margin-left: 10px;color: red;">0</label>
+			</div>
+			<div style="float: right;">
+				<button id="submitBtn" class="mui-btn mui-btn-primary" type="button" onclick="AddOrder()">保存</button>
+			</div>
+			</footer>
+
+			<!-- 内容  begin -->
+			<div style="position:relative; top: 45px; bottom:35px; bounce: vertical">
+
+				<!-- 单头  begin -->
+				<div class="mui-content">
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse">
+								<a class="mui-navigate-right" href="#">基本信息</a>
+								<div class="mui-collapse-content">
+									<div class=" mui-input-group">
+
+										<div class="mui-input-row">
+											<label>销售网点</label>
+											<button class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" id='btn_station' type='button'>必填</button>
+											<label id='station' style="display: none;"></label>
+										</div>
+
+										<div class="mui-input-row">
+											<label>业务员</label>
+											<button class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" id='btn_saler' type='button'>必填</button>
+											<label id='saler' style="display: none;"></label>
+										</div>
+
+										<div class="mui-input-row">
+											<label>客户姓名</label>
+											<input type="text" id="custm_name" placeholder="必填">
+										</div>
+
+										<!--<div class="mui-input-row ">
+										<div class="mui-radio mui-left">
+											<label>先生</label>
+											<input name="csex" type="radio" value="1" checked="checked">
+										</div>
+										<div class="mui-radio">
+											<label>女士</label>
+											<input name="csex" type="radio" value="0">
+										</div>
+									</div>-->
+
+										<div class="mui-input-row">
+											<label>客户分类</label>
+											<button class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" id='btn_custm_Classify' type='button'>必填</button>
+											<label id='custm_Classify' style="display: none;"></label>
+										</div>
+
+										<div class="mui-input-row">
+											<label>联系电话</label>
+											<input type="text" id="phone" class="mui-input-clear" placeholder="必填">
+										</div>
+
+										<div class="mui-input-row">
+											<label>交货日期</label>
+											<button id='deliver_Date' data-options='{"type":"date","beginYear":2017,"endYear":2025}' class="btn mui-btn mui-btn-block  mui-btn-outlined mui-btn-blue">必填</button>
+										</div>
+
+										<div class="mui-input-row">
+											<label>交货地址</label>
+											<input type="text" id="deliver_Addr" class="mui-input-clear" placeholder="选填">
+										</div>
+
+										<!--<div class="mui-input-row">
+										<label>楼盘名称</label>
+										<input type="text" id="Building" placeholder="选填">
+									</div>
+									
+									<div class="mui-table-view-cell">
+										<label>有无电梯</label>
+										<span id='Lift' style="margin-left: 15%;"></span>
+										<div id='switchToggle' class="mui-switch mui-switch-blue">
+											<div class="mui-switch-handle"></div>
+										</div>
+									</div>-->
+
+										<div class="mui-input-row">
+											<label>设计师</label>
+											<input type="text" id="designer" placeholder="选填">
+										</div>
+
+										<div class="mui-input-row">
+											<label>签约设计师</label>
+											<button class="btn mui-btn mui-btn-block  mui-btn-outlined mui-btn-blue" id='btn_sign_designer'>选填</button>
+											<label id='signed_designer' style="display: none;"></label>
+										</div>
+
+										<div class="mui-input-row">
+											<label>团购号</label>
+											<input type="text" id="GroupBuy_No" class="mui-input-clear" placeholder="选填">
+										</div>
+
+										<div class="mui-input-row">
+											<label>付款条件</label>
+											<button id='btn_pay_term' class="btn mui-btn mui-btn-block  mui-btn-outlined mui-btn-blue">必填</button>
+											<label id='pay_term' style="display: none;"></label>
+										</div>
+
+										<div class="mui-input-row">
+											<label>结算方式</label>
+											<button id='btn_pay_way' class="btn mui-btn mui-btn-block  mui-btn-outlined mui-btn-blue">必填</button>
+											<label id='pay_way' style="display: none;"></label>
+										</div>
+
+										<div class="mui-input-row">
+											<label>订金</label>
+											<input type="number" class="mui-input-numbox" id="deposit" placeholder="选填" value="0" oninput="checkNum(this)">
+										</div>
+
+									</div>
+
+									<div class="mui-input-row" style="margin: 10px 5px;">
+										<textarea id="remark" rows="5" placeholder="备注信息"></textarea>
+									</div>
+
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- 单头  end -->
+
+				<!-- 单身  begin -->
+				<div class="mui-card">
+					<ul id="itemCards" class="mui-table-view">
+						<!--<li class='mui-table-view-cell mui-collapse'>
+						
+						<a class='mui-navigate-right' href='#'>
+							<label class='c_itemNo'></label>）
+							<label class='c_pNo'></label>
+							<label class='c_pName'></label>
+						</a>
+						
+						<div class='mui-collapse-content'>
+							<div class='mui-card-header' style='position: relative;'>
+								<div style='background: green; width:100px;height: 100px;'></div>
+								<div style='position:absolute;top: 0px;left:130px'>规格：<label class='c_pSzie'></label></div>
+								<div style='position:absolute;top: 20px;left:130px'>颜色：<label class='cText_pColor'></label><label class='c_pColor hidden'>123</label></div>
+								<div style='position:absolute;top: 40px;left:130px'>非标：<label class='cText_non_standard_flag'><label class='c_non_standard_flag hidden'>321</label><label class='c_non_standard_info'></label></div>
+								<div style='position:absolute;top: 60px;left:130px'>仓库：<label class='cText_store'></label><label class='c_store hidden'>321</label></div>
+								<div style='position:absolute;top: 80px;left:130px'>库存：<label class='c_inventory'></label></div>
+								<div style='position:absolute;top: 100px;left:130px'>属性：<label class='cText_attrItem'></label><label class='c_attrItem hidden'>123</label></div>
+							</div>
+							
+							<div class='mui-card-content'>
+								<div class='mui-numbox' data-numbox-min='1' style='width: 70%;height: 40px; margin-left: 15%;margin-top: 10px;' data-numbox-min='1'>
+									<button class='mui-btn-primary mui-btn-numbox-minus' style='width: 25%;' type='button'>-</button>
+									<input class='c_quantity mui-input-numbox' type='number' value='' onchange='itemSum(this)' oninput='itemSum(this)' />
+									<button class='mui-btn-primary mui-btn-numbox-plus' style='width: 25%;' type='button'>+</button></div>
+								<div style='float: right;margin-top: 20px;margin-right: 15px;'><label class='Unit'></label></div>
+							</div>
+							
+							<div class='mui-card-footer' style='margin-top: 10px;padding:auto 0 !important;'>
+								<div style='float: left;'>折扣：<label class='c_discount'></label></div>
+								<div style='float: left;'>单价：<label class='c_price'></label></div>
+								<div style='float: right;margin-right: 7%;'>合计：<label class='c_account'></label></div>
+							</div>
+						</div>
+					</li>-->
+					</ul>
+				</div>
+				<!-- 单身  end -->
+
+			</div>
+			<!-- 内容  end -->
+
+			<!-- 添加产品modal  begin -->
+			<div class="modal fade col-md-12" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+				<div class="modal-dialog" role="document" style="position: relative;top: 0px;">
+					<div class="modal-content">
+
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        	<span aria-hidden="true">&times;</span>
+                    	</button>
+							<h4 class="modal-title" id="exampleModalLabel">添加产品</h4>
+						</div>
+
+						<div class="modal-body mui-input-group form-group col-md-12">
+							<div class="button" onclick="clicked('barcode_scan.html', true, true);">扫一扫</div>
+
+							<label id="dcost" style="display: none;"></label>
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">型号:</label>
+								<input type="text" maxlength="15" class="form-control" id="pNo" disabled="disabled" />
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">名称:</label>
+								<input type="text" maxlength="15" class="form-control" id="pName" disabled="disabled" />
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">仓库:</label>
+								<button id='btn_store' class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" type='button'>选择仓库</button>
+								<label id='store' style="display: none;"></label>
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label" style="padding-top:0 ;">产品属性:</label>
+								<input id="attrItemText" maxlength="15" class="form-control" disabled="disabled" />
+								<label id='attrItem' style="display: none;"></label>
+							</div>
+
+							<div class="mui-input-row mui-checkbox mui-left">
+								<label for="message-text" class="control-label">非标:</label>
+								<input id="non_standard_flag" name="checkbox" value="Item 1" type="checkbox">
+								<input type="text" id="non_standard_info" class="form-control" placeholder="请输入非标说明" style="margin-left:30px ;" />
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">规格:</label>
+								<input type="text" maxlength="15" class="form-control" id="pSize" disabled="disabled" />
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">颜色:</label>
+								<button id='btn_color' class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" type='button'>无分色</button>
+								<input id='color' style="width: 100px; height: 40px; padding-left: 10px;" placeholder="编号" value="@" onchange="setColorBtn()"></input>
+							</div>
+
+							<div class="mui-input-row">
+								<label>数量:</label>
+								<div class="mui-numbox" data-numbox-min='1' style="float: left;width: 50%;">
+									<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+									<input class="mui-input-numbox" type="number" id="quantity" value="0" />
+									<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+								</div>
+								<label for="message-text" class="control-label" id="unit"></label>
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">库存:</label>
+								<input type="number" maxlength="5" class="form-control" id="inventory" disabled="disabled" value="0" />
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">折扣:</label>
+								<input type="number" maxlength="5" class="form-control" id="discountText" value="100" />
+								<label style="width:auto;padding-left: 0;">折**【 </label>
+								<label id="discount" style="width:auto;padding-left: 0;">1</label>
+								<label style="width:auto;padding-left: 0;"> 】</label>
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">折价:</label>
+								<input type="number" class="form-control" id="price" value="0" />
+							</div>
+
+							<div class="mui-input-row">
+								<label for="message-text" class="control-label">原价:</label>
+								<input type="number" maxlength="5" class="form-control" id="price2" disabled="disabled" value="0" />
+							</div>
+
+							<div class="mui-input-row">
+								<label for="recipient-name" class="control-label">合计:</label>
+								<input type="number" maxlength="5" class="form-control" id="account" disabled="disabled" value="0" />
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+							<button type="button" class="btn btn-primary" onclick="addItem()">确认添加</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 添加产品  end -->
+
+			<script src="../../js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/mui.min.js"></script>
+			<script src="../../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/immersed.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/msg.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/order1.js" type="text/javascript" charset="utf-8"></script>
+
+			<script type="text/javascript">
+				window.onload = function() {
+					// 加载缓存模板
+					var temp = localStorage.getItem("mould");
+					if(temp != null) {
+						loadMould();
+					}
+
+					var date = new Date();
+					$("#deliver_Date").text(date.toLocaleDateString());
+				}
+			</script>
+	</body>
+
+</html>

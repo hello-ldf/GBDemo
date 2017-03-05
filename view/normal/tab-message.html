@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.poppicker.css" />
+		<style>
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			
+			.ui-alert {
+				text-align: center;
+				font-size: 16px;
+			}
+		</style>
+
+		<!--自定义-->
+		<style type="text/css">
+			/*项目样式*/
+			
+			#itemCards .Account {
+				color: red;
+			}
+			/*模态框paddingright-0*/
+			
+			.modal-body label {
+				padding-right: 0;
+				width: 65px;
+			}
+			/*让header不被隐藏*/
+			
+			.mui-bar {
+				display: block!important;
+			}
+			
+			.easyui-combobox {
+				width: 50%;
+				height: 30px;
+				margin-top: 10px;
+			}
+			
+			.textbox {
+				width: 150px !important;
+			}
+			
+			.textbox-icon {
+				width: 50px !important;
+			}
+			
+			.mui-input-row .mui-radio {
+				display: inline-block !important;
+				width: 120px !important;
+			}
+			
+			.mui-btn-outlined.mui-btn-blue {
+				float: left;
+				width: 150px;
+				margin: 0;
+			}
+			
+			.mui-button-row label {
+				text-align: left;
+				width: 125px;
+				float: left;
+				padding: 11px 15px;
+			}
+			
+			.mui-checkbox.mui-left label,
+			.mui-radio.mui-left label {
+				padding-right: 0px !important;
+				padding-left: 15px !important;
+				float: left !important;
+			}
+			
+			.mui-checkbox.mui-left input[type=checkbox],
+			.mui-radio.mui-left input[type=radio] {
+				left: 60px;
+			}
+			
+			.mui-dtpicker {
+				z-index: 999;
+			}
+			
+			.mui-poppicker {
+				z-index: 1051;
+			}
+			
+			#discountText {
+				width: 80px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--顶部-->
+		<header class="mui-bar mui-bar-nav">
+			<button type="button" style="float: left;" class="mui-btn mui-btn-danger" onclick="delMould()">删除</button>
+			<h1 id="title" class="mui-title">制作模板</h1>
+			<button type="button" style="float: right;" class="mui-btn mui-btn-primary" onclick="saveMould()">保存</button>
+		</header>
+
+		<!--内容-->
+		<div class="mui-content" style="margin-top: 60px;">
+			<div class="mui-card">
+				<ul class="mui-table-view">
+
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">基本信息模板</a>
+						<div class="mui-collapse-content">
+							<div class=" mui-input-group">
+
+								<div class="mui-input-row">
+									<label>销售网点</label>
+									<button id='btn_station' class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" type='button'>必填</button>
+									<label id='station' style="display: none;"></label>
+								</div>
+
+								<div class="mui-input-row">
+									<label>业务员</label>
+									<button id='btn_saler' class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" type='button'>必填</button>
+									<label id='saler' style="display: none;"></label>
+								</div>
+
+								<div class="mui-input-row">
+									<label>客户姓名</label>
+									<input type="text" id="custm_name" placeholder="必填">
+								</div>
+
+								<div class="mui-input-row">
+									<label>客户分类</label>
+									<button id='btn_custm_Classify' class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" type='button'>必填</button>
+									<label id='custm_Classify' style="display: none;"></label>
+								</div>
+
+								<div class="mui-input-row">
+									<label>交货地址</label>
+									<input type="text" id="deliver_Addr" class="mui-input-clear" placeholder="选填">
+								</div>
+
+								<div class="mui-input-row">
+									<label>设计师</label>
+									<input type="text" id="designer" placeholder="选填">
+								</div>
+
+								<div class="mui-input-row">
+									<label>签约设计师</label>
+									<button id='btn_sign_designer' class="btn mui-btn mui-btn-block  mui-btn-outlined mui-btn-blue">选填</button>
+									<label id='signed_designer' style="display: none;"></label>
+								</div>
+
+								<div class="mui-input-row">
+									<label>团购号</label>
+									<input type="text" id="GroupBuy_No" class="mui-input-clear" placeholder="选填">
+								</div>
+
+								<div class="mui-input-row">
+									<label>付款条件</label>
+									<button id='btn_pay_term' class="btn mui-btn mui-btn-block  mui-btn-outlined mui-btn-blue">必填</button>
+									<label id='pay_term' style="display: none;"></label>
+								</div>
+
+								<div class="mui-input-row">
+									<label>结算方式</label>
+									<button id='btn_pay_way' class="btn mui-btn mui-btn-block  mui-btn-outlined mui-btn-blue">必填</button>
+									<label id='pay_way' style="display: none;"></label>
+								</div>
+
+							</div>
+
+							<div class="mui-input-row" style="margin: 10px 5px;">
+								<textarea id="remark" rows="5" placeholder="备注信息"></textarea>
+							</div>
+						</div>
+					</li>
+
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">产品模板</a>
+						<div class="mui-collapse-content">
+							<div class=" mui-input-group">
+
+								<div class="mui-input-row">
+									<label for="message-text" class="control-label">仓库:</label>
+									<button id='btn_store' class="mui-btn mui-btn-block mui-btn-outlined mui-btn-blue" type='button'>选择仓库</button>
+									<label id='store' style="display: none;"></label>
+								</div>
+
+								<div class="mui-input-row">
+									<label for="message-text" class="control-label">折扣:</label>
+									<input type="number" maxlength="5" class="form-control" id="discountText" value="100" oninput="change(this)" />
+									<label style="width:auto;padding-left: 0;">折**【 </label>
+									<label id="discount" style="width:auto;padding-left: 0;">1</label>
+									<label style="width:auto;padding-left: 0;"> 】</label>
+								</div>
+
+							</div>
+						</div>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+
+		<script src="../../js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			(function($, doc) {
+				$.ready(function() {
+
+					// 获取全局参数
+					var global = JSON.parse(localStorage.getItem("globalJson"));
+
+					// 销售网点
+					var stationPicker = new $.PopPicker();
+					stationPicker.setData(global.stations);
+					var stationButton = doc.getElementById('btn_station');
+					stationButton.addEventListener('tap', function(event) {
+						stationPicker.show(function(items) {
+							stationButton.innerText = items[0].text;
+							$("#station")[0].innerText = items[0].value;
+						});
+					}, false);
+
+					// 业务员
+					var salerPicker = new $.PopPicker();
+					salerPicker.setData(global.salers);
+					var salerButton = doc.getElementById('btn_saler');
+					salerButton.addEventListener('tap', function(event) {
+						salerPicker.show(function(items) {
+							salerButton.innerText = items[0].text;
+							$("#saler")[0].innerText = items[0].value;
+						});
+					}, false);
+
+					// 客户分类
+					var custmClassifyPicker = new $.PopPicker();
+					custmClassifyPicker.setData(global.custclas);
+					var custmClassifyButton = doc.getElementById('btn_custm_Classify');
+					custmClassifyButton.addEventListener('tap', function(event) {
+						custmClassifyPicker.show(function(items) {
+							custmClassifyButton.innerText = items[0].text;
+							$("#custm_Classify")[0].innerText = items[0].value;
+						});
+					}, false);
+
+					// 签约设计师
+					var signDesignerPicker = new $.PopPicker();
+					signDesignerPicker.setData(global.singnstylists);
+					var signDesignerButton = doc.getElementById('btn_sign_designer');
+					signDesignerButton.addEventListener('tap', function(event) {
+						signDesignerPicker.show(function(items) {
+							signDesignerButton.innerText = items[0].text;
+							$("#signed_designer")[0].innerText = items[0].value;
+						});
+					}, false);
+
+					// 付款条件
+					var payTermPicker = new $.PopPicker();
+					payTermPicker.setData(global.payments);
+					var payTermButton = doc.getElementById('btn_pay_term');
+					payTermButton.addEventListener('tap', function(event) {
+						payTermPicker.show(function(items) {
+							payTermButton.innerText = items[0].text;
+							$("#pay_term")[0].innerText = items[0].value;
+						});
+					}, false);
+
+					// 结算方式
+					var payWayPicker = new $.PopPicker();
+					payWayPicker.setData(global.settleModes);
+					var payWayButton = doc.getElementById('btn_pay_way');
+					payWayButton.addEventListener('tap', function(event) {
+						payWayPicker.show(function(items) {
+							payWayButton.innerText = items[0].text;
+							$("#pay_way")[0].innerText = items[0].value;
+						});
+					}, false);
+
+					// 仓库
+					var storePicker = new $.PopPicker();
+					storePicker.setData(global.stores);
+					var storeButton = doc.getElementById('btn_store');
+					storeButton.addEventListener('tap', function(event) {
+						storePicker.show(function(items) {
+							storeButton.innerText = items[0].text;
+							$("#store")[0].innerText = items[0].value;
+						});
+					}, false);
+
+					// 加载缓存模板
+					var temp = localStorage.getItem("mould");
+					if(temp != null) {
+						loadMould();
+					}
+
+				});
+			})(mui, document);
+
+			// 折扣变更
+			function change(obj) {
+				var floatReg = /^\d+(\.\d*)?$/; // 非负浮点
+
+				if(!floatReg.test(obj.value)) {
+					// 不是数值
+					obj.value = 0;
+				} else {
+					// 是数值					
+					if(obj.value > 100) {
+						obj.value = 100;
+						$("#discount").text(1);
+						return;
+					}
+
+					var reg = /[0]\d+/; // 0打头跟数字
+					if(reg.test(obj.value)) {
+						obj.value = parseFloat(obj.value);
+					}
+
+				}
+				$("#discount").text(obj.value / 100.00);
+			}
+
+			// 保存模板
+			function saveMould() {
+				
+				// 获取模板
+				var mould = {
+					btn_station: $("#btn_station").text(),
+					station: $("#station").text(),
+					btn_saler: $("#btn_saler").text(),
+					saler: $("#saler").text(),
+					custm_name: $("#custm_name").val(),
+					btn_custm_Classify: $("#btn_custm_Classify").text(),
+					custm_Classify: $("#custm_Classify").text(),
+					deliver_Addr: $("#deliver_Addr").val(),
+					designer: $("#designer").val(),
+					btn_sign_designer: $("#btn_sign_designer").text(),
+					signed_designer: $("#signed_designer").text(),
+					GroupBuy_No: $("#GroupBuy_No").val(),
+					btn_pay_term: $("#btn_pay_term").text(),
+					pay_term: $("#pay_term").text(),
+					btn_pay_way: $("#btn_pay_way").text(),
+					pay_way: $("#pay_way").text(),
+					remark: $("#remark").val(),
+					btn_store: $("#btn_store").text(),
+					store: $("#store").text(),
+					discountText: $("#discountText").val(),
+					discount: $("#discount").text()
+				}
+				
+				// 保存到本地 
+				localStorage.setItem("mould", JSON.stringify(mould));
+				alert("模板保存成功");
+			}
+
+
+			// 删除模板
+			function delMould() {
+				localStorage.removeItem("mould");
+				alert("模板已删除");
+			}
+			
+			
+			// 加载模板
+			function loadMould() {
+				// 获取模板
+				var mould = JSON.parse(localStorage.getItem("mould"));
+				
+				// 加载
+				$("#btn_station").text(mould.btn_station);
+				$("#station").text(mould.station);
+				$("#btn_saler").text(mould.btn_saler);
+				$("#saler").text(mould.saler);
+				$("#custm_name").val(mould.custm_name);
+				$("#btn_custm_Classify").text(mould.btn_custm_Classify);
+				$("#custm_Classify").text(mould.custm_Classify);
+				$("#deliver_Addr").val(mould.deliver_Addr);
+				$("#designer").val(mould.designer);
+				$("#btn_sign_designer").text(mould.btn_sign_designer);
+				$("#signed_designer").text(mould.signed_designer);
+				$("#GroupBuy_No").val(mould.GroupBuy_No);
+				$("#btn_pay_term").text(mould.btn_pay_term);
+				$("#pay_term").text(mould.pay_term);
+				$("#btn_pay_way").text(mould.btn_pay_way);
+				$("#pay_way").text(mould.pay_way);
+				$("#remark").val(mould.remark);
+				$("#btn_store").text(mould.btn_store);
+				$("#store").text(mould.store);
+				$("#discountText").val(mould.discountText);
+				$("#discount").text(mould.discount);
+			}
+			
+		</script>
+
+	</body>
+
+</html>

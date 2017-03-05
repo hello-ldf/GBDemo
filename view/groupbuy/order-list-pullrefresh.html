@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/datedropper.css">
+		<style type="text/css">
+			.dd-d {
+				display: none;
+			}
+			
+			.dd-w .dd-b .dd-n {
+				width: 60px;
+				display: block;
+			}
+			
+			header {
+				text-align: center;
+			}
+			
+			#date {
+				text-align: center;
+				width: 120px;
+				margin: 0 auto%;
+			}
+			
+			#passedBtn {
+				z-index: 999;
+				position: fixed;
+				top: 145px;
+				right: 0;
+			}
+			
+			.mui-switch:before {
+				content: '未审';
+			}
+			
+			.mui-switch.mui-active:before {
+				content: '已审';
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!-- 顶部 -->
+		<header class="mui-bar mui-bar-nav">
+			<span id="a-order-add" class="mui-icon mui-icon-plus mui-pull-left"></span>
+			<input type="text" class="input" id="date" readonly="readonly" value="↓↓选择日期↓↓" />
+			<span id="searchBtn" class="mui-icon mui-icon-search mui-pull-right"></span>
+		</header>
+
+		<div id="passedBtn" class="mui-switch mui-switch-blue">
+			<div class="mui-switch-handle"></div>
+		</div>
+
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-content">
+
+				<!-- 未审核的 -->
+				<div id="cards0">
+					<!--<div class="mui-card">
+						<div class="mui-card-content">
+							<div class="mui-card-content-inner">
+								<div class="mui-row">
+									<div style="float: left; margin-right: 15px;">
+										<label>订单号:</label><label class="InID">395-0124578</label></div>
+									<div style="float: left; margin-right: 15px;">
+										<label>下单日期:</label><label class="CreateDate">2016-12-12</label></div>
+								</div>
+								<div class="mui-row">
+									<div style="float: left; margin-right: 15px;">
+										<label>客户名:</label><label class="CustomName">李先生</label> (
+										<label class="CustomSex">先生</label>)</div>
+									<div style="float: left; margin-right: 15px;">
+										<label>总金额:￥</label><label class="TotalAccount">129574.12</label></div>
+									<div style="float: left;"><label class="Phone">电话联系:</label>
+										<label>13266459123</label></div>
+								</div>
+							</div>
+						</div>
+					</div>-->
+				</div>
+
+				<!-- 已审核的 -->
+				<div id="cards1" style="display: none;">
+					<!--每个选项卡-->
+					<!--<div class="mui-card">
+						<div class="mui-card-content">
+							<div class="mui-card-content-inner">
+								<div class="mui-row">
+									<div style="float: left; margin-right: 15px;">
+										<label>订单号:</label><label class="InID">这是已审的</label></div>
+									<div style="float: left; margin-right: 15px;">
+										<label>下单日期:</label><label class="CreateDate">2016-12-12</label></div>
+								</div>
+								<div class="mui-row">
+									<div style="float: left; margin-right: 15px;">
+										<label>客户名:</label><label class="CustomName">李先生</label> (
+										<label class="CustomSex">先生</label>)</div>
+									<div style="float: left; margin-right: 15px;">
+										<label>总金额:￥</label><label class="TotalAccount">129574.12</label></div>
+									<div style="float: left;"><label class="Phone">电话联系:</label>
+										<label>13266459123</label></div>
+								</div>
+							</div>
+						</div>
+					</div>-->
+				</div>
+
+			</div>
+		</div>
+
+		<script src="../../js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/datedropper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			var server = localStorage.getItem("server"); //服务器ip、端口
+			var area = JSON.parse(localStorage.getItem("areaJson")); // 地区信息
+			var cmtFlag = 0; // 审核状态
+			var refreshNum = 10; // 上拉加载的数量
+
+			// mui初始化配置
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				},
+				gestureConfig: {
+					longtap: true
+				}
+			});
+
+			// mui function begin ****************************************************************
+			(function($) {
+				// mui readey begin -------------------------------------------------------------
+				$.ready(function() {
+
+					// 左上角添加订单
+					$("body").on("tap", "#a-order-add", function() {
+						$.openWindow({
+							url: "order-add.html",
+							id: "order-add",
+						});
+					});
+
+					// 按条件搜索
+					$("body").on("tap", "#searchBtn", function() {
+						mui.toast('功能未开放，敬请期待。');
+						return;
+						var user = JSON.parse(localStorage.getItem("userJson"));
+						if(user.mao01s.length != 0) {
+							$.openWindow({
+								url: "order-list.html",
+								id: "order-list.html",
+							});
+						}
+					});
+
+					// 监听switch
+					$("#passedBtn")[0].addEventListener('toggle', function(event) {
+						if(event.detail.isActive) { // 已审
+							cmtFlag = 1;
+							$("#cards0")[0].style.display = "none";
+							$("#cards1")[0].style.display = "block";
+						} else {
+							cmtFlag = 0;
+							$("#cards0")[0].style.display = "block";
+							$("#cards1")[0].style.display = "none";
+						}
+					});
+
+					// 监听长按删除
+					$("#cards0").on('longtap', '.mui-card', function() {
+						var card = this;
+						var ccode = card.getElementsByClassName("InID")[0].innerText;
+						var btnArray = ['否', '是'];
+						mui.confirm('是否删除该订单？', 'Warning', btnArray, function(e) {
+							if(e.index == 1) {
+								mui.ajax({
+									type: "Post",
+									url: server + "/Saler/DelOrder",
+									crossDomain: true,
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									data: "{db:" + JSON.stringify(area.areaValue) + ", ccode:" + JSON.stringify(ccode) + "}",
+									dataType: "json",
+									success: function(data) {
+										if(data == "success") {
+											card.remove();
+										} else {
+											alert(msg[data]);
+										}
+									},
+									error: function(error) {
+										alert("/Saler/DelOrder,调用失败。" + error);
+									}
+								});
+							}
+						})
+					});
+
+					// 单击跳转
+					$("#cards0").on('tap', '.mui-card', function() {
+						var card = this;
+						var ccode = card.getElementsByClassName("InID")[0].innerText;
+						mui.openWindow({
+							url: 'order-update.html',
+							id: 'order-update',
+							extras: {
+								ccode: ccode
+							}
+						});
+					});
+					//					$("#cards1").on('tap', '.mui-card', function() {
+					//						var card = this;
+					//						card.getElementById();
+					//					});
+
+					// 双击顶部回滚到TOP
+					/*var contentWebview = null;
+					document.querySelector('header').addEventListener('doubletap', function() {
+						if(contentWebview == null) {
+							contentWebview = plus.webview.currentWebview().children()[0];
+						}
+						contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+					});*/
+				});
+				// mui ready end -------------------------------------------------------------------
+
+			})(mui);
+			// mui function end ********************************************************************
+
+			// 日期控件
+			$(function() {
+				$("#date").dateDropper({
+					init_animation: 'dropDown',
+					animate: false,
+					format: 'Y-m',
+					maxYear: '2025',
+					minYear: '2015'
+				});
+				$("#date").on("change", function() {
+					pulldownRefresh();
+				})
+			});
+
+			// 从服务器删除项目
+			//			function delOrder(InID){
+			//				
+
+			//						}
+
+			// 下拉刷新具体业务实现
+			function pulldownRefresh() {
+				//				setTimeout(function() {
+				var cards = $(".mui-card");
+				$.each(cards, function(i, card) {
+					card.remove();
+				});
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+				pullupRefresh();
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+				//refresh completed
+				//				}, 2000);
+			}
+
+			// 上拉加载具体业务实现  begin ****************************************************************
+			function pullupRefresh() {
+				var yM = $("#date").val();
+				if(yM == "↓↓选择日期↓↓") {
+					alert("请选择月份");
+					return;
+				}
+				var cNum = null;
+				if(cmtFlag == 0) {
+					cNum = JSON.stringify($("#cards0 .mui-card").length); // 当前显示数目
+				}
+				if(cmtFlag == 1) {
+					cNum = JSON.stringify($("#cards1 .mui-card").length); // 当前显示数目
+				}
+
+				var rNum = JSON.stringify(refreshNum); // 请求获得数目
+				var user = JSON.parse(localStorage.getItem("userJson")); // 用户信息
+				var saler = JSON.stringify(user.cname); // 销售信息
+				var cmtflag = JSON.stringify(cmtFlag);
+				yM = JSON.stringify(yM); // 查询的年月
+
+				//				setTimeout(function() {
+				// 返回结果	
+				mui.ajax({
+					type: "Post",
+					url: server + "/Saler/GetOrderByMonth",
+					crossDomain: true,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data: "{cNum:" + cNum + ",rNum:" + rNum + ",saler:" + saler + ",yM:" + yM + ",cmtFlag:" + cmtflag + "}",
+					dataType: "json",
+					success: function(json) {
+						var list = JSON.parse(json);
+						if(list.length < refreshNum) {
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
+						}
+						mui.each(list, function(i, corder) {
+							var jk = "<div class='mui-card'>\
+										<div class='mui-card-content'>\
+										<div class='mui-card-content-inner'>\
+										<div class='mui-row'>\
+										<div style='float: left; margin-right: 15px;'>\
+										<label>订单号:</label><label class='InID'>" + corder.CCODE + "</label></div>\
+										<div style='float: left; margin-right: 15px;'>\
+										<label>下单日期:</label><label class='CreateDate'>" + corder.DDATE.substring(0, 10) + "</label></div></div>\
+										<div class='mui-row'>\
+										<div style='float: left; margin-right: 15px;'>\
+										<label>客户名:</label><label class='CustomName'>" + corder.CCMAN + "</label></div>\
+										<div style='float: left; margin-right: 15px;'>\
+										<label>总金额:￥</label><label class='TotalAccount'>" + corder.DAMT + "</label></div>\
+										<div style='float: left;'><label>联系电话:</label>\
+										<label class='Phone'>" + corder.custphone + "</label></div></div></div></div></div>";
+							if(corder.CMTFLAG == 0) {
+								$("#cards0").append(jk);
+							}
+							if(corder.CMTFLAG == 1) {
+								$("#cards1").append(jk);
+							}
+						});
+					},
+					error: function(error) {
+						alert("Saler/GetOrderByMonth,请求失败。" + error);
+					}
+				});
+				//				}, 1500);
+			}
+			// 上拉加载具体业务实现  end ****************************************************************
+
+			// 初始加载上拉数据
+			/*if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}*/
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+	</head>
+
+	<body>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			// 生成上拉加载、下拉刷新的子页
+			mui.init({
+				subpages: [{
+					url: 'order-list-pullrefresh.html',
+					id: 'order-list-pullrefresh.html',
+					styles: {
+						'top': '0px',
+						'bottom': '0px',
+					}
+				}]
+			});
+		</script>
+	</body>
+</html>
